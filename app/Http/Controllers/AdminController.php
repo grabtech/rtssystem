@@ -77,4 +77,86 @@ class AdminController extends Controller
          return response()->json($response);
         
      } 
+    
+    public function dashboardData(){
+        $ticketData = DB::select('select * from tbl_grab_tickets order by id desc');
+         return view("list",['ticketData'=>$ticketData]);
+    }
+    public function opendashboardData(){
+        $ticketData = DB::select('select * from tbl_grab_tickets where status IN(1,2)order by id desc');
+         return view("openlist_data",['ticketData'=>$ticketData]);
+    }
+    public function closedashboardData(){
+        $ticketData = DB::select('select * from tbl_grab_tickets where status=0 order by id desc');
+         return view("closelist_data",['ticketData'=>$ticketData]);
+    }
+
+    public function updateticketstatus(Request $request){
+        $status = $request->status;
+        $id = $request->id;
+        $statusupdate = DB::table('tbl_grab_tickets')->where('id', $id)->update(['status' => $status]);
+        $ticketData = DB::select('select * from tbl_grab_tickets where id=?',[$id]);
+        if($ticketData[0]->status == 0){
+         $this->riderNotify($ticketData);
+        }
+  
+        $data = 'Status updated successfully';
+        return response()->json(array(
+         'success' => true,
+         'msg'   => $data
+       ));
+     }
+
+     function riderNotify($ticketData){
+        $ticketid = $ticketData[0]->ticket_id;
+        $riderName = $ticketData[0]->rider_name;
+        $recipients = '+917977250352';
+        $recipients = '+918660137088';
+        $message    = 'Hi '."$riderName".',
+                             Your ticket has been resolved!!. 
+                             TicketId : '."$ticketid".'
+
+                       Thanks,
+                       Grab a Grub Services Pvt Ltd
+                             ';
+        $account_sid = getenv("TWILIO_SID");
+        $auth_token = getenv("TWILIO_AUTH_TOKEN");
+        $twilio_number = getenv("TWILIO_NUMBER");
+        $client = new Client($account_sid, $auth_token);
+        $client->messages->create($recipients, 
+               ['from' => $twilio_number, 'body' => $message] );
+
+        
+        $calltext = "<Response><Say>Hi  ".$riderName."
+
+                                  Your ticket number ".$ticketid." has been resolve
+
+                                  Please check again
+
+                              Thank You
+                              Grab a Grub Services Pvt Ltd
+                                  </Say></Response>";
+                
+
+        $call = $client->calls
+               ->create($recipients, // to
+                        "+19093421130", // from
+                        [
+                            "twiml" => $calltext
+                        ]
+               );
+
+
+    }
+
+    public function getfiledata($id){
+        //$test = 'public/files/10_159177852_282441379938675_5556678584481918162_n.jpg';
+     $ticketData = DB::select('select * from tbl_grab_files where id=?',[$id]);
+     return Storage::download($ticketData[0]->file_path);
+     //return Storage::download($ticketData[0]->file_path);
+     //return  response()->download(public_path($ticketData[0]->file_path,'userimage')); 
+    
+    }
+
+
 }

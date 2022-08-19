@@ -24,3 +24,9 @@ Route::post("/login",[AdminController::class,'login']);
 Route::post("/checkin",[AdminController::class,'checkin']);
 Route::post("/logupload",[AdminController::class,'createTicket']);
 
+Route::post("/updatestatus",[AdminController::class,'updateticketstatus']);
+Route::get("/riderNotify",[AdminController::class,'riderNotify']);
+
+Route::post("/getfilesdata",[AdminController::class,'getfiles']);
+
+
