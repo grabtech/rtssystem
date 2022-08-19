@@ -24,5 +24,19 @@ class AdminController extends Controller
         return view("closelist_data",['ticketData'=>$ticketData]);
    }
    
-
+    public function updateticketstatus(Request $request){
+       $status = $request->status;
+       $id = $request->id;
+       $statusupdate = DB::table('tbl_grab_tickets')->where('id', $id)->update(['status' => $status]);
+       $ticketData = DB::select('select * from tbl_grab_tickets where id=?',[$id]);
+       if($ticketData[0]->status == 0){
+       // $this->riderNotify($ticketData);
+       }
+ 
+       $data = 'Status updated successfully';
+       return response()->json(array(
+        'success' => true,
+        'msg'   => $data
+      ));
+    }
 }
