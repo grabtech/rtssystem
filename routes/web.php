@@ -18,3 +18,5 @@ Route::get('/', function () {
 });
 
 Route::get("/ticketdashboard",[AdminController::class,'dashboardData']);
+Route::get("/openticketdashboard",[AdminController::class,'opendashboardData']);
+Route::get("/closeticketdashboard",[AdminController::class,'closedashboardData']);

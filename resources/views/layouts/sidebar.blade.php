@@ -57,9 +57,13 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                 Charts
                             </a> -->
-                            <a class="nav-link" href="{{url('/ticketdashboard')}}">
+                            <a class="nav-link" href="{{url('/openticketdashboard')}}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Support Tickets
+                                Open Tickets
+                            </a>
+                            <a class="nav-link" href="{{url('/closeticketdashboard')}}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Closed Tickets
                             </a>
                         </div>
                     </div>

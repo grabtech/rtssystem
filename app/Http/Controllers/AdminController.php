@@ -15,6 +15,14 @@ class AdminController extends Controller
        $ticketData = DB::select('select * from tbl_grab_tickets order by id desc');
         return view("list",['ticketData'=>$ticketData]);
    }
+   public function opendashboardData(){
+       $ticketData = DB::select('select * from tbl_grab_tickets where status IN(1,2)order by id desc');
+        return view("openlist_data",['ticketData'=>$ticketData]);
+   }
+   public function closedashboardData(){
+       $ticketData = DB::select('select * from tbl_grab_tickets where status=0 order by id desc');
+        return view("closelist_data",['ticketData'=>$ticketData]);
+   }
    
 
 }
