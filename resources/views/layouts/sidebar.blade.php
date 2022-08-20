@@ -53,7 +53,7 @@
                             </div>                                                     
     
     
-                            <div class="sb-sidenav-menu-heading" style='font-size: 25px; color:#868AD7 !important;;font-weight: 900;'>RTS</div>
+                            <div class="sb-sidenav-menu-heading" style='font-size: 25px; color:#868AD7 !important;;font-weight: 900;'>RTS</div> 
                             <!-- <a class="nav-link" href="charts.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                 Charts
