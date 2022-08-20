@@ -8,7 +8,25 @@
 }
 td,th,a{
     text-align:center;
+    height: 50px;
+  line-height: 50px;
 }
+
+.ajs-content{
+    padding: 16px 24px 16px 0px !important;
+}
+.sb-sidenav-dark .sb-sidenav-menu .nav-link {
+    color:#868AD7;
+}
+.sb-nav-link-icon{
+    color:#868AD7 !important;
+}
+
+.sb-nav-link-icon:hover{
+    color:white !important;
+}
+
+
 </style>
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <img src="{{URL::asset('/assets/logo.png')}}" alt="Grab Logo" class="logo">
@@ -16,6 +34,7 @@ td,th,a{
             <!-- <a class="navbar-brand ps-3" href="index.html">RTS</a> -->
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+    
             <!-- Navbar Search-->
             <!-- <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                 <div class="input-group">

@@ -50,7 +50,7 @@ select + i.fa {
 
                     <div class='row'>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <h1 class="mt-4">Dashboard</h1>
+                                    <h1 class="mt-4" style='font-size: 20;padding-bottom: 20px;'>Dashboard</h1>
                                 </div>
                                 <div class='col-lg-6 col-md-6 col-sm-6'>
                                 <span style='padding:20px;float:right'>
@@ -62,8 +62,8 @@ select + i.fa {
                         </div>
                         
                         <div class="card mb-4">
-                            <div class="card-header">
-                                <i class="fas fa-table me-1"></i>
+                            <div class="card-header" style='font-weight: 800;'>
+                                <i class="fas fa-ticket me-1"></i>
 
                                Closed Tickets Records
 
@@ -78,7 +78,8 @@ select + i.fa {
                                             <th>Rider Name</th>
                                             <th>App Version</th>
                                             <th>Phone Number</th>
-                                            <th>Date</th>
+                                            <th>Created At</th>
+                                            <th>Closed At</th>
                                             <th>Download</th>  
                                            
                                         </tr>
@@ -96,7 +97,8 @@ select + i.fa {
                                             <td>{{$ticketData->app_version}}</td>
                                             <td>{{$ticketData->phone_no}}</td>
                                             <td>{{$ticketData->created_time}}</td>
-                                            <td><center><img src="{{URL::asset('/assets/download_img2.JPEG')}}" alt="download img" height="45" width="45" class=""></center></td>
+                                            <td>{{$ticketData->closed_date}}</td>
+                                            <td><center><a href="{{route('getfiledata',$ticketData->ticket_id)}}"  id='{{$ticketData->id}}'><img src="{{URL::asset('/assets/download_img2.JPEG')}}" alt="download img" height="45" width="45" class=""></a></center></td>
                                      </tr>
                                     @endforeach
                                     </tbody>

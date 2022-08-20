@@ -50,8 +50,10 @@
                                         </nav>
                                     </div>
                                 </nav>
-                            </div>
-                            <div class="sb-sidenav-menu-heading">Tickets</div>
+                            </div>                                                     
+    
+    
+                            <div class="sb-sidenav-menu-heading" style='font-size: 25px; color:#868AD7 !important;;font-weight: 900;'>RTS</div>
                             <!-- <a class="nav-link" href="charts.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                 Charts
@@ -62,11 +64,11 @@
                             </a> -->
 
                             <a class="nav-link" href="{{url('/openticketdashboard')}}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fas fa-ticket"></i></div>
                                 Open Tickets
                             </a>
                             <a class="nav-link" href="{{url('/closeticketdashboard')}}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fas fa-ticket"></i></div>
                                 Closed Tickets
                             </a>
                         </div>

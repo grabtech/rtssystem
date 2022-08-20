@@ -41,6 +41,10 @@ select + i.fa {
     padding-right: 5px;
 }
 
+.nav-link{
+ color:#868AD7;
+}
+
 
 </style>
     @section('content')
@@ -50,7 +54,7 @@ select + i.fa {
 
                     <div class='row'>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <h1 class="mt-4">Dashboard</h1>
+                                    <h1 class="mt-4" style='font-size: 20;padding-bottom: 20px;'>Dashboard</h1>
                                 </div>
                                 <div class='col-lg-6 col-md-6 col-sm-6'>
                                 <span style='padding:20px;float:right'>
@@ -62,8 +66,8 @@ select + i.fa {
                         </div>
                         
                         <div class="card mb-4">
-                            <div class="card-header">
-                                <i class="fas fa-table me-1"></i>
+                            <div class="card-header" style='font-weight: 800;'>
+                                <i class="fas fa-ticket me-1"></i>
 
                                Open Tickets Records
 
@@ -78,7 +82,7 @@ select + i.fa {
                                             <th>Rider Name</th>
                                             <th>App Version</th>
                                             <th>Phone Number</th>
-                                            <th>Date</th>
+                                            <th>Created At</th>
                                             <th>Status</th>
                                             <th>Download</th>  
                                            
@@ -98,9 +102,9 @@ select + i.fa {
                                             <td>{{$ticketData->phone_no}}</td>
                                             <td>{{$ticketData->created_time}}</td>
                                             <td>
-                                                <select id="{{$ticketData->id}}" class="form-control input-lg actiontext" onchange="updatestatus(this,'{{$ticketData->id}}')" style="color:white; <?php if($ticketData->status==1) { echo 'background:#b02a37 ;';} elseif($ticketData->status==0){ echo 'background: #146c43;';} else{echo 'background: #4682B4;';}?>" >
+                                                <select id="{{$ticketData->id}}" class="form-control input-lg actiontext" onchange="updatestatus(this,'{{$ticketData->id}}','{{$ticketData->status}}')" style="color:white;line-height:37px !important; <?php if($ticketData->status==1) { echo 'background:#b02a37 ;';} elseif($ticketData->status==0){ echo 'background: #146c43;';} else{echo 'background: #4682B4;';}?>">
                                                     <option value='1' {{($ticketData->status)==1 ? 'selected' : ''}} >Active</option>
-                                                    <option value='2' {{($ticketData->status)==2 ? 'selected' : ''}} >Inprogress</option>
+                                                    <option value='2' {{($ticketData->status)==2 ? 'selected' : ''}} >InProgress</option>
                                                     <option value='0' {{($ticketData->status)==0 ? 'selected' : ''}} >Closed</option>
                                                 </select>
                                             </td>
@@ -108,7 +112,7 @@ select + i.fa {
                                             <!-- <td><input  data-id="{{$ticketData->id}}" class="toggle-class" type="checkbox" data-onstyle="danger" data-offstyle="success" data-toggle="toggle" data-on="Open" data-off="Resolved" {{($ticketData->status) ? 'checked' : ''}} onclick="changeUserStatus(this, {{ $ticketData->id }});"></td> -->
                                             <!-- <td><input data-id="{{$ticketData->id}}" class="toggle-class" type="checkbox" data-onstyle="danger" data-offstyle="success" data-toggle="toggle" data-on="Open" data-off="Resolved" {{($ticketData->status) ? 'checked' : ''}}></td> -->
                                          <!-- <td><a href=""><i class="fa fa-download" aria-hidden="true" id='$ticketData->id'></i></a></td> -->
-                                     <td><center><a href="{{route('getfiledata',$ticketData->id)}}"  id='{{$ticketData->id}}'><img src="{{URL::asset('/assets/download_img2.JPEG')}}" alt="download img" height="45" width="45" class=""></a></center></td>
+                                     <td><center><a href="{{route('getfiledata',$ticketData->ticket_id)}}"  id='{{$ticketData->id}}'><img src="{{URL::asset('/assets/download_img2.JPEG')}}" alt="download img" height="45" width="45" class=""></a></center></td>
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -122,15 +126,51 @@ select + i.fa {
 
     @endsection
 <script>
-    function updatestatus(req,id){
+     
+    function updatestatus(req,id,serverstatus){
+        if(req.value == 1 || req.value == 2){
+            sessionStorage.setItem("serverticketstatus", req.value);
+        }
+       var allowupdate =0;
         if(req.value == 1){
         $("#"+req.id).css('background', "#b02a37"); 
         } else if(req.value == 2){
             $("#"+req.id).css('background', '#4682B4'); 
         } else {
-            $("#"+req.id).css('background', "#146c43"); 
+            alertify.confirm('Ticket Closing', 'Are you sure want to close the ticket?', function(){ 
+                $("#"+req.id).css('background', "#146c43"); 
+                var status = req.value;  
+                $.ajax({ 
+            
+                    type: "POST", 
+                    dataType: "json", 
+                    url: 'api/updatestatus', 
+                    data: {'status': status, 'id': id}, 
+                    success: function(data){ 
+                    //$("#flash").css("display", "block")
+                    $("#flash").attr("hidden",false);
+                    //alert-success
+                    $("#msg").fadeIn(1000);
+                        $("#msg").html(data.msg);
+                        $("#msg").fadeOut(2000);
+                    } 
+                });
+             }, function(){ 
+                serverstatus = sessionStorage.getItem("serverticketstatus");
+                    if(serverstatus == 1){
+                        $("#"+req.id).val(1); 
+                    } else if(serverstatus == 2){
+                        $("#"+req.id).val(2);
+                    }
+                });
+           
         }
 
+    
+    
+   if(req.value == 1 || req.value==2){
+
+   
         var status = req.value;  
            $.ajax({ 
     
@@ -147,8 +187,11 @@ select + i.fa {
                 $("#msg").fadeOut(2000);
             } 
          });
+    }
    
     }
+
+    
 
 //    $(function() { 
 //            $('.toggle-class').change(function() { 

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Mail;
 
+
 class AdminController extends Controller
 {
     
@@ -27,12 +28,6 @@ class AdminController extends Controller
     public function createTicket(Request $request){
         // $request =json_encode(['headerreq'=>$request->header(),'files'=>$file]);
          //Log::channel('weblog')->info($request);
- 
-         // $validatedData = $request->validate([
-         //     'file' => 'required|csv,txt,xlx,xls,pdf,zip,mp4,mp3',
-         //    ]);
-        
-        
          $eid = $request->input('eid');
          $rider_name = $request->input('ridername');
          $App_version = $request->input('appversion');
@@ -63,7 +58,7 @@ class AdminController extends Controller
              $attachments[] = 'D:\xampp\htdocs\rtssystem\storage\app\public\files'.DIRECTORY_SEPARATOR .$filename;
              $fileinsertdata[] = ['ticket_id'=>$ticketid,'filename'=>$filename,'file_path'=>$path];
          }
-         $ticketinsertdata = ['ticket_id'=>$ticketid,'eid'=>$eid,'rider_name'=>$rider_name,'app_version'=>$App_version,'phone_no'=>$phone_number,'status'=>1];
+         $ticketinsertdata = ['ticket_id'=>$ticketid,'eid'=>$eid,'rider_name'=>$rider_name,'app_version'=>$App_version,'phone_no'=>$phone_number,'created_time'=>date("Y-m-d H:i:s"),'status'=>1];
          DB::table('tbl_grab_tickets')->insert($ticketinsertdata);
          DB::table('tbl_grab_files')->insert($fileinsertdata);
          //dispatch(new App\Jobs\SendEmailJob($details,$attachments));
@@ -110,11 +105,12 @@ class AdminController extends Controller
      function riderNotify($ticketData){
         $ticketid = $ticketData[0]->ticket_id;
         $riderName = $ticketData[0]->rider_name;
-        $recipients = '+917977250352';
-        $recipients = '+918660137088';
+        //$recipients = '+917977250352';//urvi number
+        //$recipients = '+918660137088';//bharat number
+        $recipients = '+918898398209';// Ashish number
         $message    = 'Hi '."$riderName".',
-                             Your ticket has been resolved!!. 
-                             TicketId : '."$ticketid".'
+                        Your ticket has been resolved!!. 
+                        TicketId : '."$ticketid".'
 
                        Thanks,
                        Grab a Grub Services Pvt Ltd
@@ -151,10 +147,11 @@ class AdminController extends Controller
 
     public function getfiledata($id){
         //$test = 'public/files/10_159177852_282441379938675_5556678584481918162_n.jpg';
-     $ticketData = DB::select('select * from tbl_grab_files where id=?',[$id]);
+     $ticketData = DB::select('select * from tbl_grab_files where ticket_id=?',[$id]);
      return Storage::download($ticketData[0]->file_path);
      //return Storage::download($ticketData[0]->file_path);
      //return  response()->download(public_path($ticketData[0]->file_path,'userimage')); 
+     
     
     }
 

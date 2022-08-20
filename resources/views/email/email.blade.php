@@ -10,11 +10,12 @@
 
 
 <ul>
+
+  <li>Subject - <span style='color:blue;font-wieght:bold'>{{$data['subject']}}</span></li>
   <li>TicketID - <span style='color:blue;font-wieght:bold'>{{$data['ticketid']}}</span></li>
   <li>RiderId - <span style='color:blue;font-wieght:bold'>{{$data['eid']}}</span></li>
   <li>AppVersion - <span style='color:blue;font-wieght:bold'>{{$data['App_version']}}</span></li>
 </ul>
-
 
  
 </body>

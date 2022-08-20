@@ -15,6 +15,7 @@ class SendEmailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     protected $details,$attachments;
+   
     /**
      * Create a new job instance.
      *
@@ -33,7 +34,8 @@ class SendEmailJob implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to('bharatjogi.07@gmail.com')->cc(['testgrab77@gmail.com'])->send(new NotifyMail($this->details,$this->attachments));
+        Mail::to('ashish.kha@grab.in')->cc(['testgrab77@gmail.com'])->send(new NotifyMail($this->details,$this->attachments));
         //Mail::to('bharatjogi.07@gmail.com')->send(new NotifyMail($this->details,$this->attachments));
+        
     }
 }
